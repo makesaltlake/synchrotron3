@@ -1,5 +1,117 @@
+/* half the nonsense in this file is to get the side nav to stretch to the
+   bottom without adding extra white space below it */
+
+html {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+#root {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+div[role="group"] {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.navigation-container {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.top-navigation-bar {
+  flex: 0 0 auto;
+  z-index: 10;
+  border-bottom: 1px solid #e5e5e5;
+  box-shadow: 0 0 4px rgba(190, 190, 190, 0.5);
+}
+
+.navbar-name {
+  margin-right: 1rem;
+}
+
+@media (min-width: 576px) {
+  .side-navigation-container {
+    flex: 1 0 auto;
+    display: flex;
+  }
+
+  .side-navigation-bar {
+    min-width: 12rem;
+    flex: 0 0 auto;
+    border-right: 1px solid #eee;
+  }
+
+  .main-content {
+    flex: 1 1 auto;
+  }
+}
+
+.side-navigation-bar > ul {
+  margin: 15px 12px;
+  opacity: 0.85;
+}
+
+.side-navigation-bar .nav-link {
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+}
+
+.side-navigation-bar .nav-link.active {
+  color: #007bff;
+  background-color: transparent;
+  font-weight: bold;
+}
+
+.card-footer-no-border {
+  border-top: none;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-gap: 30px;
+  gap: 30px;
+  margin: 25px 30px;
+}
+
+.labeled-hr {
+  display: flex;
+  align-items: center;
+}
+
+.labeled-hr-short {
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+.labeled-hr > hr {
+  flex: 1 1 auto;
+}
+
+.labeled-hr > div {
+  flex: 0 0 auto;
+  margin-left: 0.4em;
+  margin-right: 0.4em;
+}
+
+.page-header {
+  text-align: center;
+  margin-top: 0.8em;
+  margin-bottom: 0.4em;
 }
