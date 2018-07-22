@@ -1,5 +1,7 @@
 const functions = require('firebase-functions');
 
+exports.certifications = require('./certifications');
+
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //

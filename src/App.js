@@ -12,6 +12,8 @@ import Chrome from './components/Chrome';
 import LoginGuard from './components/LoginGuard';
 
 import Certifications from './pages/Certifications';
+import CertificationsAdd from './pages/Certifications/Add';
+import CertificationsEdit from './pages/Certifications/Edit';
 
 window.firestore = firestore;
 
@@ -25,6 +27,8 @@ class App extends Component {
           <Chrome path="/">
             <Hi path="/"/>
             <Certifications path="/certifications"/>
+            <CertificationsAdd path="/certifications/add"/>
+            <CertificationsEdit path="/certifications/:certificationId/edit"/>
           </Chrome>
         </LoginGuard>
       </Router>

@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 
+import { Link } from '@reach/router';
+
 import { firestore } from '../../firebase';
 
-import { Card, CardBody, CardTitle, CardImg } from 'reactstrap';
+import { Card, CardBody, CardTitle, CardImg, CardFooter, Button } from 'reactstrap';
+import FlexCardFooter from '../../components/FlexCardFooter';
 
 import CardGrid from '../../components/CardGrid';
 import LabeledHr from '../../components/LabeledHr';
-import PageHeader from '../../components/PageHeader';
+import Page from '../../components/Page';
+import Breadcrumb from '../../components/Breadcrumb';
+import BreadcrumbButton from '../../components/BreadcrumbButton';
 
 import AuthState from '../../data/AuthState';
 import Query from '../../data/Query';
@@ -23,15 +28,43 @@ class Certifications extends Component {
 
   renderCertification(certification) {
     let image = null;
+    let signUp = null;
+    let runCertification = null;
+    let recipients = null;
+    let instructors = null;
+    let edit = null;
+    let deleteButton = null;
+
     if (certification.get('image')) {
       image = <CardImg top width="100%" src={certification.get('image')}/>
     }
+
+    if (this.props.user.get(`instructs_certifications.${certification.id}`)) {
+      runCertification = <Button color='primary' tag={Link} to={`${certification.id}/run`}>Run Certification</Button>;
+      recipients = <Link to={`${certification.id}/recipients`}>Recipients</Link>;
+    }
+
+    if (this.props.user.get('site_admin') || this.props.user.get('shop_admin')) {
+      instructors = <Link to={`${certification.id}/instructors`}>Instructors</Link>;
+      edit = <Button outline color='primary' tag={Link} to={`${certification.id}/edit`}>Edit</Button>
+      deleteButton = <Button outline color='danger' tag={Link} to={`${certification.id}/delete`}>Delete</Button>
+    }
+
+    signUp = <a href='#'>Sign up</a>;
 
     return <Card key={certification.id}>
       {image}
       <CardBody>
         <CardTitle>{certification.get('name')}</CardTitle>
       </CardBody>
+      <FlexCardFooter>
+        {runCertification}
+        {recipients}
+        {instructors}
+        {edit}
+        {deleteButton}
+        {signUp}
+      </FlexCardFooter>
     </Card>;
   }
 
@@ -54,17 +87,17 @@ class Certifications extends Component {
     let otherCertificationsDiv = otherCertifications.length > 0 ? this.renderCertifications(otherCertifications, 'Available') : null;
 
     if (ownedCertificationsDiv || passedCertificationsDiv || otherCertificationsDiv) {
-      return <div>
-        <PageHeader>Certifications</PageHeader>
+      return <Page>
+        <Breadcrumb>Certifications</Breadcrumb>
+        <BreadcrumbButton color="primary" tag={Link} to="/certifications/add">Add</BreadcrumbButton>
         {ownedCertificationsDiv}
         {passedCertificationsDiv}
         {otherCertificationsDiv}
-      </div>;
+      </Page>;
     } else {
-      return <div>
-        <PageHeader>Certifications</PageHeader>
+      return <Page title="Certifications">
         <div className="text-muted">No certifications.</div>
-      </div>;
+      </Page>;
     }
   }
 }
@@ -72,7 +105,7 @@ class Certifications extends Component {
 export default function WrappedCertifications(props) {
   return <AuthState nothing={null}>
     {user => <Query query={firestore.collection('users').doc(user.uid)}>
-      {userDoc => <Query query={firestore.collection('certifications')} loading={null}>
+      {userDoc => <Query query={firestore.collection('certifications').orderBy('name', 'asc')} loading={null}>
         {(certifications => <Certifications certifications={certifications} user={userDoc} {...props}/>)}
       </Query>}
     </Query>}
