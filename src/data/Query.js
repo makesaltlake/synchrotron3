@@ -1,19 +1,31 @@
 import React, { Component } from 'react';
 
+import { firestore } from '../firebase';
+
 export default class AuthState extends Component {
   state = {
     snapshot: null,
     loading: true
   };
 
+  query(props) {
+    props = props || this.props;
+
+    if (props.query) {
+      return props.query;
+    } else if (props.doc) {
+      return firestore.doc(props.doc);
+    }
+  }
+
   componentDidMount() {
-    if (this.props.query) {
-      this.unregisterListener = this.props.query.onSnapshot(this.onSnapshot);
+    if (this.query()) {
+      this.unregisterListener = this.query().onSnapshot(this.onSnapshot);
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    let oldQuery = prevProps.query, newQuery = this.props.query;
+    let oldQuery = this.query(prevProps), newQuery = this.query();
     if ((oldQuery && !newQuery) ||
         (newQuery && !oldQuery) ||
         (!oldQuery.isEqual(newQuery))) {
@@ -22,9 +34,9 @@ export default class AuthState extends Component {
         this.unregisterListener = null;
       }
 
-      if (this.props.query) {
+      if (newQuery) {
         this.setState({snapshot: null, loading: true});
-        this.unregisterListener = this.props.query.onSnapshot(this.onSnapshot);
+        this.unregisterListener = newQuery.onSnapshot(this.onSnapshot);
       } else {
         this.setState({snapshot: null});
       }

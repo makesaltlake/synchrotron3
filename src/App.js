@@ -6,16 +6,18 @@ import CardGrid from './components/CardGrid';
 import LabeledHr from './components/LabeledHr';
 import PageHeader from './components/PageHeader';
 
-import { auth, firestore } from './firebase';
+import { auth, firestore, functions } from './firebase';
 
 import Chrome from './components/Chrome';
 import LoginGuard from './components/LoginGuard';
 
-import Certifications from './pages/Certifications';
+import CertificationsList from './pages/Certifications/List';
 import CertificationsAdd from './pages/Certifications/Add';
 import CertificationsEdit from './pages/Certifications/Edit';
+import CertificationsCertify from './pages/Certifications/Certify';
 
 window.firestore = firestore;
+window.functions = functions;
 
 const Hi = () => <div>hi</div>
 
@@ -26,9 +28,10 @@ class App extends Component {
         <LoginGuard path="/">
           <Chrome path="/">
             <Hi path="/"/>
-            <Certifications path="/certifications"/>
+            <CertificationsList path="/certifications"/>
             <CertificationsAdd path="/certifications/add"/>
             <CertificationsEdit path="/certifications/:certificationId/edit"/>
+            <CertificationsCertify path="/certifications/:certificationId/certify"/>
           </Chrome>
         </LoginGuard>
       </Router>

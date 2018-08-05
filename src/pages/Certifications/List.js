@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { Link } from '@reach/router';
 
-import { firestore } from '../../firebase';
+import { firestore, storage } from '../../firebase';
 
 import { Card, CardBody, CardTitle, CardImg, CardFooter, Button } from 'reactstrap';
 import FlexCardFooter from '../../components/FlexCardFooter';
@@ -12,9 +12,11 @@ import LabeledHr from '../../components/LabeledHr';
 import Page from '../../components/Page';
 import Breadcrumb from '../../components/Breadcrumb';
 import BreadcrumbButton from '../../components/BreadcrumbButton';
+import AspectRatioCardImage from '../../components/AspectRatioCardImage';
 
 import AuthState from '../../data/AuthState';
 import Query from '../../data/Query';
+import DownloadFile from '../../data/DownloadFile';
 
 class Certifications extends Component {
   renderCertifications(certifications, title) {
@@ -36,7 +38,7 @@ class Certifications extends Component {
     let deleteButton = null;
 
     if (certification.get('image')) {
-      image = <CardImg top width="100%" src={certification.get('image')}/>
+      image = <DownloadFile file={storage.ref('images').child(certification.get('image'))} loading={null} render={url => <AspectRatioCardImage src={url}/>}/>
     }
 
     if (this.props.user.get(`instructs_certifications.${certification.id}`)) {

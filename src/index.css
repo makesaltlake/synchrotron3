@@ -169,3 +169,7 @@ div[role="group"] {
 .breadcrumb-action {
   margin-left: 0.7rem;
 }
+
+.file-upload-input-preview {
+  max-width: 200px;
+}

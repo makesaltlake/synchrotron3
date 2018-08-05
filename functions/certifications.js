@@ -1,5 +1,5 @@
 const { firestore } = require('./firebase');
-const { authenticatedFunction, form } = require('./util');
+const { authenticatedFunction, form, permissionDenied } = require('./util');
 
 exports.create = authenticatedFunction((data, context, {user}) => {
   return user.get('site_admin') || user.get('shop_admin');
@@ -9,7 +9,8 @@ exports.create = authenticatedFunction((data, context, {user}) => {
   }
 
   return firestore.collection('certifications').add({
-    name: data.name
+    name: data.name,
+    image: data.image
   }).then(ref => {
     return form.submitted({id: ref.id});
   });
@@ -23,7 +24,8 @@ exports.update = authenticatedFunction((data, context, {user}) => {
   }
 
   return firestore.collection('certifications').doc(data.id).update({
-    name: data.name
+    name: data.name,
+    image: data.image
   }).then(ref => {
     return form.submitted({id: ref.id});
   })

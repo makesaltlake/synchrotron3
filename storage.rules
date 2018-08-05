@@ -1,7 +1,14 @@
 service firebase.storage {
   match /b/{bucket}/o {
-    match /{allPaths=**} {
-      allow read, write: if false;
+    match /images/{imageId} {
+      // images are world readable
+      allow read;
+
+      // images are writable only if an image with that name doesn't yet exist, the image is less than 10 MB in size,
+      // and the image is actually an image
+      allow write: if resource == null
+                   && request.resource.size < 10 * 1024 * 1024
+                   && request.resource.contentType.matches('image/.*');
     }
   }
 }

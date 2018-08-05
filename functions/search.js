@@ -97,6 +97,6 @@ exports.users_restricted = search({
     };
   },
   canAccess: function({user}) {
-    return user.get('instructs_certifications') && user.get('instructs_certifications').length > 0;
+    return user.get('instructs_certifications') && Object.keys(user.get('instructs_certifications')).length > 0;
   }
 });

@@ -13,13 +13,19 @@
     "react-dom": "^16.4.1",
     "react-final-form": "^3.6.5",
     "react-firebaseui": "^3.0.4",
+    "react-instantsearch": "^5.2.2",
     "react-scripts": "1.1.4",
-    "reactstrap": "^6.3.0"
+    "reactstrap": "^6.3.0",
+    "uuid": "^3.3.2"
   },
   "scripts": {
     "start": "PORT=4900 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "repl": "node --experimental-repl-await ./scripts/firebase.admin.repl.js"
+  },
+  "devDependencies": {
+    "firebase-admin": "^5.13.0"
   }
 }

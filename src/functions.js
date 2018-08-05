@@ -9,5 +9,15 @@ function build(name) {
 
 export const certifications = {
   create: build('certifications-create'),
-  update: build('certifications-update')
+  update: build('certifications-update'),
+  certify: build('certifications-certify')
+};
+
+export const search = {
+  users: {
+    get_token: build('search-users-get_token')
+  },
+  users_restricted: {
+    get_token: build('search-users_restricted-get_token')
+  }
 };

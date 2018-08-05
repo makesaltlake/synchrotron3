@@ -1,8 +1,9 @@
 const { firestore, functions } = require('./firebase');
 
-exports.permissionDenied = function permissionDenied() {
+function permissionDenied() {
   return new functions.https.HttpsError('permission-denied');
 }
+exports.permissionDenied = permissionDenied;
 
 exports.authenticatedFunction = function(checker, action) {
   if (action === null && checker !== null) {
